@@ -136,7 +136,7 @@ echo -e "[${GREEN}+${RESET}] Starship configured"
 
 # Cargo tools
 echo -e "[${CYAN}#${RESET}] Installing Cargo tools..."
-cargo install darklua
+cargo install darklua --root $PREFIX
 
 echo -e "[${GREEN}+${RESET}] Cargo tools installed"
 
