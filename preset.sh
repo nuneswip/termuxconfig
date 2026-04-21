@@ -33,6 +33,7 @@ npm \
 python \
 lua51 \
 rust \
+golang \
 clang \
 make \
 cmake \
