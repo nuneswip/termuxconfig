@@ -93,44 +93,18 @@ EOF
 echo -e "[${GREEN}+${RESET}] .zshrc configured"
 
 # Starship Config
-echo -e "[${CYAN}#${RESET}] Configuring Starship..."
+echo -e "[${CYAN}#${RESET}] Downloading Starship config..."
 
 mkdir -p ~/.config
 
-cat > ~/.config/starship.toml << 'EOF'
-$schema = "https://starship.rs/config-schema.json"
-
-palette = "monochrome"
-
-format = "[$directory$git_branch$git_status] $character"
-add_newline = false
-
-[directory]
-truncation_symbol = " "
-truncation_length = 2
-truncate_to_repo = true
-style = "fg:frost"
-format = "[$path]($style)"
-
-[git_branch]
-symbol = ""
-style = "fg:spark"
-format = " | [[$symbol $branch](fg:spark)]($style)"
-
-[git_status]
-format = "$all_status$ahead_behind"
-
-[character]
-success_symbol = "[$](fg:lime)"
-error_symbol = "[$](fg:ember)"
-
-[palettes.monochrome]
-text = "#ffffff"
-frost = "#868686"
-spark = "#aeaeae"
-lime = "#a4a4a4"
-ember = "#cccccc"
-EOF
+if command -v curl >/dev/null 2>&1; then
+    curl -L \
+    https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml \
+    -o ~/.config/starship.toml
+else
+    wget -O ~/.config/starship.toml \
+    https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml
+fi
 
 echo -e "[${GREEN}+${RESET}] Starship configured"
 
