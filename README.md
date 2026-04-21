@@ -1,4 +1,6 @@
 ```bash
-pkg i -y curl
-curl -fsSL https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/preset.sh | bash
+pkg install git -y
+git clone https://github.com/nuneswip/termuxconfig
+cd termuxconfig
+bash preset.sh
 ```
