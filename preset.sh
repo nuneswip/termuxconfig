@@ -13,12 +13,11 @@ RESET="\033[0m"
 INVERSE="\033[7m"
 
 echo -e "[${GREEN}+${RESET}] ${BOLD}Nuneswip Termux Preset${RESET}"
-
 sleep 1
 
 echo -e "[${CYAN}#${RESET}] Updating packages..."
-pkg update -y >/dev/null 2>&1
-pkg upgrade -y >/dev/null 2>&1
+pkg update -y
+pkg upgrade -y
 
 echo -e "[${CYAN}#${RESET}] Installing dependencies..."
 pkg install -y \
@@ -49,22 +48,21 @@ tar \
 proot \
 openssl \
 pkg-config \
-libffi \
- >/dev/null 2>&1
+libffi
 
 echo -e "[${GREEN}+${RESET}] Dependencies installed"
 
 # Set ZSH
 echo -e "[${CYAN}#${RESET}] Setting ZSH as default..."
-chsh -s zsh >/dev/null 2>&1
+chsh -s zsh
 
 # Plugins
 echo -e "[${CYAN}#${RESET}] Installing ZSH plugins..."
 
 mkdir -p ~/.zsh
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions >/dev/null 2>&1
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting >/dev/null 2>&1
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
 
 echo -e "[${GREEN}+${RESET}] Plugins installed"
 
@@ -84,7 +82,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias ls="eza --icons"
 alias ll="eza -la --icons"
 alias cat="bat"
-alias="tree -I "node_modules"
+alias treeclean="tree -I node_modules"
 alias gclean="git add -A && git diff --cached --quiet || git commit -m \"cleanup: apply gitignore\" && git push origin main"
 alias gb="git add -A && git diff --cached --quiet || git commit -m \"chore: sync\" && git push origin main"
 alias gbk="git add -A && git diff --cached --quiet || git commit -m \"chore: backup snapshot\" && git push --force-with-lease backup backup-full"
@@ -138,8 +136,7 @@ echo -e "[${GREEN}+${RESET}] Starship configured"
 
 # Cargo tools
 echo -e "[${CYAN}#${RESET}] Installing Cargo tools..."
-
-cargo install darklua >/dev/null 2>&1
+cargo install darklua
 
 echo -e "[${GREEN}+${RESET}] Cargo tools installed"
 
@@ -149,11 +146,11 @@ echo -e "[${CYAN}#${RESET}] Installing JetBrainsMono Nerd Font..."
 mkdir -p ~/.termux
 TMP_FONT_DIR="$(mktemp -d)"
 
-curl -fsSL \
+curl -L \
 https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip \
--o "$TMP_FONT_DIR/font.zip" >/dev/null 2>&1
+-o "$TMP_FONT_DIR/font.zip"
 
-unzip -q "$TMP_FONT_DIR/font.zip" -d "$TMP_FONT_DIR" >/dev/null 2>&1
+unzip "$TMP_FONT_DIR/font.zip" -d "$TMP_FONT_DIR"
 
 REGULAR_FONT=$(find "$TMP_FONT_DIR" -name "*JetBrainsMono*Nerd*Regular.ttf" | head -n 1)
 
@@ -166,7 +163,7 @@ fi
 
 rm -rf "$TMP_FONT_DIR"
 
-termux-reload-settings >/dev/null 2>&1
+termux-reload-settings
 
 echo -e ""
 echo -e "[${GREEN}+${RESET}] ${BOLD}Setup completed${RESET}"
