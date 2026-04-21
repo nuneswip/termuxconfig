@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+clear
+
 # Colors
 RED="\033[31m"
 GREEN="\033[32m"
