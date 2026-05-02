@@ -7,9 +7,7 @@ GREEN="\033[32m"
 YELLOW="\033[33m"
 CYAN="\033[36m"
 BOLD="\033[1m"
-DIM="\033[2m"
 RESET="\033[0m"
-INVERSE="\033[7m"
 
 echo -e "[${GREEN}+${RESET}] ${BOLD}Nuneswip Termux Preset${RESET}"
 sleep 1
@@ -55,6 +53,9 @@ echo -e "[${GREEN}+${RESET}] Dependencies installed"
 
 echo -e "[${CYAN}#${RESET}] Setting ZSH as default..."
 chsh -s zsh
+
+echo -e "[${CYAN}#${RESET}] Removing default MOTD..."
+rm -f $PREFIX/etc/motd
 
 echo -e "[${CYAN}#${RESET}] Installing ZSH plugins..."
 
