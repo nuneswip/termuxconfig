@@ -71,11 +71,11 @@ cat > ~/.config/nuneswip/motd.zsh << 'EOF'
 nuneswip_motd() {
 clear
 
-FG="%F{245}"
-FG2="%F{240}"
-RESET="%f"
+FG1="\033[38;5;245m"
+FG2="\033[38;5;240m"
+RESET="\033[0m"
 
-WIDTH=$(tput cols)
+WIDTH=$(tput cols 2>/dev/null || echo 80)
 SEP=$(printf '─%.0s' $(seq 1 $WIDTH))
 
 USER_NAME=$(whoami)
@@ -87,16 +87,17 @@ ANDROID=$(getprop ro.build.version.release 2>/dev/null)
 IP=$(ip addr show wlan0 2>/dev/null | awk '/inet / {print $2}' | cut -d/ -f1)
 MEM=$(free -m 2>/dev/null | awk '/Mem:/ {print $3"MB/"$2"MB"}')
 
-echo "${FG2} Termux ${FG}• ${USER_NAME} ${FG2}• ${DATE}${RESET}"
+echo "${FG2} Termux ${FG1}• ${USER_NAME} ${FG2}• ${DATE}${RESET}"
 echo "${FG2}${SEP}${RESET}"
 
-echo "${FG}  Device  ${RESET} ${DEVICE:-unknown}"
-echo "${FG}  Android ${RESET} ${ANDROID:-?}"
-echo "${FG}  Network ${RESET} ${IP:-no connection}"
-echo "${FG}  Memory  ${RESET} ${MEM:-n/a}"
-echo "${FG}  Uptime  ${RESET} ${UPTIME:-unknown}"
+echo "${FG1}  Device  ${RESET} ${DEVICE:-unknown}"
+echo "${FG1}  Android ${RESET} ${ANDROID:-?}"
+echo "${FG1}  Network ${RESET} ${IP:-no connection}"
+echo "${FG1}  Memory  ${RESET} ${MEM:-n/a}"
+echo "${FG1}  Uptime  ${RESET} ${UPTIME:-unknown}"
 
 echo "${FG2}${SEP}${RESET}"
+
 echo ""
 }
 EOF
