@@ -72,9 +72,10 @@ cat > ~/.config/nuneswip/motd.zsh << 'EOF'
 nuneswip_motd() {
 clear
 
-FG1="\033[38;5;245m"
-FG2="\033[38;5;240m"
-RESET="\033[0m"
+# CORES CORRIGIDAS (interpretação garantida no Zsh)
+FG1=$'\e[38;5;245m'
+FG2=$'\e[38;5;240m'
+RESET=$'\e[0m'
 
 WIDTH=$(tput cols 2>/dev/null || echo 80)
 SEP=$(printf '─%.0s' $(seq 1 $WIDTH))
