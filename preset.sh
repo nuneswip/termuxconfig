@@ -2,7 +2,6 @@
 
 clear
 
-# Colors
 RED="\033[31m"
 GREEN="\033[32m"
 YELLOW="\033[33m"
@@ -49,15 +48,14 @@ tar \
 proot \
 openssl \
 pkg-config \
-libffi
+libffi \
+termux-api
 
 echo -e "[${GREEN}+${RESET}] Dependencies installed"
 
-# Set ZSH
 echo -e "[${CYAN}#${RESET}] Setting ZSH as default..."
 chsh -s zsh
 
-# Plugins
 echo -e "[${CYAN}#${RESET}] Installing ZSH plugins..."
 
 mkdir -p ~/.zsh
@@ -67,19 +65,52 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax
 
 echo -e "[${GREEN}+${RESET}] Plugins installed"
 
-# ZSHRC
-echo -e "[${CYAN}#${RESET}] Configuring .zshrc..."
+mkdir -p ~/.config/nuneswip
+
+cat > ~/.config/nuneswip/motd.zsh << 'EOF'
+nuneswip_motd() {
+clear
+
+FG="%F{245}"
+FG2="%F{240}"
+RESET="%f"
+
+WIDTH=$(tput cols)
+SEP=$(printf '─%.0s' $(seq 1 $WIDTH))
+
+USER_NAME=$(whoami)
+DATE=$(date +"%d/%m %H:%M")
+UPTIME=$(uptime -p 2>/dev/null | sed 's/up //')
+DEVICE=$(getprop ro.product.model 2>/dev/null)
+ANDROID=$(getprop ro.build.version.release 2>/dev/null)
+
+IP=$(ip addr show wlan0 2>/dev/null | awk '/inet / {print $2}' | cut -d/ -f1)
+MEM=$(free -m 2>/dev/null | awk '/Mem:/ {print $3"MB/"$2"MB"}')
+
+echo "${FG2} Termux ${FG}• ${USER_NAME} ${FG2}• ${DATE}${RESET}"
+echo "${FG2}${SEP}${RESET}"
+
+echo "${FG}  Device  ${RESET} ${DEVICE:-unknown}"
+echo "${FG}  Android ${RESET} ${ANDROID:-?}"
+echo "${FG}  Network ${RESET} ${IP:-no connection}"
+echo "${FG}  Memory  ${RESET} ${MEM:-n/a}"
+echo "${FG}  Uptime  ${RESET} ${UPTIME:-unknown}"
+
+echo "${FG2}${SEP}${RESET}"
+echo ""
+}
+EOF
 
 cat > ~/.zshrc << 'EOF'
 
-# Starship
 eval "$(starship init zsh)"
 
-# Plugins
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Aliases
+source ~/.config/nuneswip/motd.zsh
+nuneswip_motd
+
 alias ls="eza --icons"
 alias ll="eza -la --icons"
 alias cat="bat"
@@ -91,39 +122,26 @@ alias b="./build.sh"
 
 EOF
 
-echo -e "[${GREEN}+${RESET}] .zshrc configured"
-
-# Starship Config
 echo -e "[${CYAN}#${RESET}] Downloading Starship config..."
 
 mkdir -p ~/.config
 
 if command -v curl >/dev/null 2>&1; then
-    curl -L \
-    https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml \
-    -o ~/.config/starship.toml
+    curl -L https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml -o ~/.config/starship.toml
 else
-    wget -O ~/.config/starship.toml \
-    https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml
+    wget -O ~/.config/starship.toml https://raw.githubusercontent.com/nuneswip/termuxconfig/refs/heads/main/config.toml
 fi
 
-echo -e "[${GREEN}+${RESET}] Starship configured"
-
-# Cargo tools
 echo -e "[${CYAN}#${RESET}] Installing Cargo tools..."
+
 cargo install darklua --root $PREFIX
 
-echo -e "[${GREEN}+${RESET}] Cargo tools installed"
-
-# Nerd Font
 echo -e "[${CYAN}#${RESET}] Installing JetBrainsMono Nerd Font..."
 
 mkdir -p ~/.termux
 TMP_FONT_DIR="$(mktemp -d)"
 
-curl -L \
-https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip \
--o "$TMP_FONT_DIR/font.zip"
+curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -o "$TMP_FONT_DIR/font.zip"
 
 unzip "$TMP_FONT_DIR/font.zip" -d "$TMP_FONT_DIR"
 
@@ -131,18 +149,15 @@ REGULAR_FONT=$(find "$TMP_FONT_DIR" -name "*JetBrainsMono*Nerd*Regular.ttf" | he
 
 if [ -f "$REGULAR_FONT" ]; then
     mv "$REGULAR_FONT" ~/.termux/font.ttf
-    echo -e "[${GREEN}+${RESET}] JetBrainsMono Nerd Font installed"
-else
-    echo -e "[${RED}x${RESET}] Failed to install font"
 fi
 
 rm -rf "$TMP_FONT_DIR"
 
 termux-reload-settings
 
-echo -e ""
+echo ""
 echo -e "[${GREEN}+${RESET}] ${BOLD}Setup completed${RESET}"
 echo -e "[${CYAN}#${RESET}] Restart Termux or run:"
-echo -e ""
+echo ""
 echo -e "${YELLOW}exec zsh${RESET}"
-echo -e ""
+echo ""
