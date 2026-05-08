@@ -116,18 +116,7 @@ alias ll="eza -la --icons"
 alias cat="bat"
 alias tree="tree -I 'node_modules'"
 alias gclean="git add -A && git diff --cached --quiet || git commit -m \"cleanup: apply gitignore\" && git push origin main"
-alias gb='
-git add -A &&
-(
-    git diff --cached --quiet &&
-    echo "Nothing to commit"
-) ||
-(
-    oco ||
-    git commit -m "chore: sync"
-) &&
-git push origin main
-'
+alias gb='git add -A && ((git diff --cached --quiet && echo "Nothing to commit") || (oco || git commit -m "chore: sync")) && git push origin main'
 alias gbk="git add -A && git diff --cached --quiet || git commit -m \"chore: backup snapshot\" && git push --force-with-lease backup backup-full"
 alias b="./build.sh"
 
