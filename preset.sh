@@ -49,6 +49,8 @@ pkg-config \
 libffi \
 termux-api
 
+npm install -g opencommit
+
 echo -e "[${GREEN}+${RESET}] Dependencies installed"
 
 echo -e "[${CYAN}#${RESET}] Setting ZSH as default..."
