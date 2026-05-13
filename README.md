@@ -1,6 +1,7 @@
 ```bash
-pkg install git -y
-git clone https://github.com/nuneswip/termuxconfig
-cd termuxconfig
-bash preset.sh
+pkg update -y && pkg upgrade -y
+
+pkg install curl -y
+
+bash <(curl -fsSL https://raw.githubusercontent.com/nuneswip/termuxconfig/main/preset.sh)
 ```
