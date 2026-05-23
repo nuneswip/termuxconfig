@@ -1,0 +1,20 @@
+{
+    "name": "termuxconfig",
+    "version": "1.0.0",
+    "description": "",
+    "homepage": "https://github.com/nuneswip/termuxconfig#readme",
+    "bugs": {
+        "url": "https://github.com/nuneswip/termuxconfig/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nuneswip/termuxconfig.git"
+    },
+    "license": "MIT",
+    "author": "",
+    "type": "modules",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
+}
