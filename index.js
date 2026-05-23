@@ -105,7 +105,10 @@ process.on("SIGINT", () => {
         "openssl",
         "pkg-config",
         "libffi",
-        "termux-api"
+        "termux-api",
+        "openjdk-25",
+        "openjdk-21",
+        "openjdk-17"
     ];
 
     run(`pkg install -y ${packages.join(" ")}`);
