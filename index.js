@@ -106,6 +106,7 @@ process.on("SIGINT", () => {
         "pkg-config",
         "libffi",
         "termux-api",
+        "mandoc",
         "openjdk-25",
         "openjdk-21",
         "openjdk-17"
