@@ -125,6 +125,7 @@ process.on("SIGINT", () => {
 
     log("info", "Setting ZSH as default...");
     run("chsh -s zsh");
+    run("git config --global credential.helper store");
 
     log("info", "Removing default MOTD...");
     run("rm -f $PREFIX/etc/motd");
